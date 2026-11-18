@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block title %}{{ 'Edit application' if application else 'New application' }}{% endblock %}
+{% block content %}
+<h1>{{ 'Edit application' if application else 'Log an application' }}</h1>
+
+{% if not jobs %}
+  <div class="flash flash-info">Add a <a href="{{ url_for('jobs.create') }}">job</a> before logging an application.</div>
+{% endif %}
+
+{% set job_opts = [] %}
+{% for j in jobs %}{% set _ = job_opts.append((j.job_id, j.job_title ~ ' - ' ~ j.company_name)) %}{% endfor %}
+
+<form method="post" novalidate>
+  {{ m.select('job_id', 'Job', form, errors, job_opts, required=True) }}
+  {{ m.input('application_date', 'Application date', form, errors, type='date', required=True) }}
+  {{ m.select('status', 'Status', form, errors, statuses|options, blank=None) }}
+  {{ m.input('resume_version', 'Resume version', form, errors, maxlength=50, placeholder='e.g. v2.1') }}
+  {{ m.checkbox('cover_letter_sent', 'Cover letter sent', form) }}
+  {{ m.input('response_date', 'Response date', form, errors, type='date') }}
+  {{ m.input('interview_date', 'Interview date & time', form, errors, type='datetime-local') }}
+  {{ m.textarea('notes', 'Notes', form, errors, maxlength=5000) }}
+  {{ m.form_buttons(application, url_for('applications.detail', application_id=application.application_id) if application else url_for('applications.list_applications')) }}
+</form>
+{% endblock %}

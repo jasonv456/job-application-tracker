@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block title %}{{ 'Edit contact' if contact else 'New contact' }}{% endblock %}
+{% block content %}
+<h1>{{ 'Edit contact' if contact else 'New contact' }}</h1>
+
+{% if not companies %}
+  <div class="flash flash-info">Add a <a href="{{ url_for('companies.create') }}">company</a> before adding a contact.</div>
+{% endif %}
+
+<form method="post" novalidate>
+  {{ m.input('first_name', 'First name', form, errors, required=True, maxlength=50) }}
+  {{ m.input('last_name', 'Last name', form, errors, required=True, maxlength=50) }}
+  {{ m.select('company_id', 'Company', form, errors, companies|options('company_id', 'company_name'), required=True) }}
+  {{ m.input('job_title', 'Job title', form, errors, maxlength=100) }}
+  {{ m.input('email', 'Email', form, errors, type='email', maxlength=100, placeholder='name@company.com') }}
+  {{ m.input('phone', 'Phone', form, errors, type='tel', maxlength=20, placeholder='(305) 555-0123') }}
+  {{ m.input('linkedin_url', 'LinkedIn URL', form, errors, maxlength=200) }}
+  {{ m.textarea('notes', 'Notes', form, errors, maxlength=5000) }}
+  {{ m.form_buttons(contact, url_for('contacts.detail', contact_id=contact.contact_id) if contact else url_for('contacts.list_contacts')) }}
+</form>
+{% endblock %}

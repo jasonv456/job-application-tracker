@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% from "_macros.html" import delete_button %}
+{% block title %}Application #{{ application.application_id }}{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('applications.list_applications') }}">&larr; All applications</a></p>
+<div class="top">
+  <h1>Application: {{ application.job_title }}</h1>
+  <div>
+    <a class="btn" href="{{ url_for('applications.edit', application_id=application.application_id) }}">Edit</a>
+    {{ delete_button(url_for('applications.delete', application_id=application.application_id), 'this application') }}
+  </div>
+</div>
+
+<table class="details">
+  <tr><th>Job</th><td><a href="{{ url_for('jobs.detail', job_id=application.job_id) }}">{{ application.job_title }}</a></td></tr>
+  <tr><th>Company</th><td><a href="{{ url_for('companies.detail', company_id=application.company_id) }}">{{ application.company_name }}</a></td></tr>
+  <tr><th>Status</th><td>{{ application.status|dash }}</td></tr>
+  <tr><th>Application date</th><td>{{ application.application_date }}</td></tr>
+  <tr><th>Resume version</th><td>{{ application.resume_version|dash }}</td></tr>
+  <tr><th>Cover letter sent</th><td>{{ 'Yes' if application.cover_letter_sent else 'No' }}</td></tr>
+  <tr><th>Response date</th><td>{{ application.response_date|dash }}</td></tr>
+  <tr><th>Interview</th><td>{{ application.interview_date.strftime('%Y-%m-%d %H:%M') if application.interview_date else '—' }}</td></tr>
+  <tr><th>Notes</th><td class="notes">{{ application.notes|dash }}</td></tr>
+</table>
+{% endblock %}

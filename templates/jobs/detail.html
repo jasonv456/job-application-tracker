@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% from "_macros.html" import delete_button, skill_tags %}
+{% block title %}{{ job.job_title }}{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('jobs.list_jobs') }}">&larr; All jobs</a></p>
+<div class="top">
+  <h1>{{ job.job_title }}</h1>
+  <div>
+    <a class="btn btn-primary" href="{{ url_for('applications.create', job_id=job.job_id) }}">Log application</a>
+    <a class="btn" href="{{ url_for('jobs.edit', job_id=job.job_id) }}">Edit</a>
+    {{ delete_button(url_for('jobs.delete', job_id=job.job_id), job.job_title) }}
+  </div>
+</div>
+
+<table class="details">
+  <tr><th>Company</th><td><a href="{{ url_for('companies.detail', company_id=job.company_id) }}">{{ job.company_name }}</a></td></tr>
+  <tr><th>Required skills</th><td>{{ skill_tags(job.skills) }}</td></tr>
+  <tr><th>Job type</th><td>{{ job.job_type|dash }}</td></tr>
+  <tr><th>Salary</th><td>{{ job.salary_min|money }} – {{ job.salary_max|money }}</td></tr>
+  <tr><th>Date posted</th><td>{{ job.date_posted|dash }}</td></tr>
+  <tr><th>Active</th><td>{{ 'Yes' if job.is_active else 'No' }}</td></tr>
+  <tr><th>Posting URL</th><td>{{ job.posting_url|dash }}</td></tr>
+  <tr><th>Description</th><td class="notes">{{ job.job_description|dash }}</td></tr>
+</table>
+
+<h2>Your skill match</h2>
+{% if match and match.percent is not none %}
+  <p><span class="pct lvl-{{ level }}">{{ match.percent }}%</span>
+     ({{ match.matched|length }} of {{ match.required_count }} required skills)</p>
+  <p>Have: {% for s in match.matched %}<span class="tag tag-hit">{{ s }}</span>{% else %}<span class="muted">none</span>{% endfor %}</p>
+  <p>Missing: {% for s in match.missing %}<span class="tag tag-miss">{{ s }}</span>{% else %}<span class="muted">none</span>{% endfor %}</p>
+{% elif not job.skills %}
+  <p class="muted">This job has no required skills listed.</p>
+{% else %}
+  <p class="muted">Enter your skills on the <a href="{{ url_for('match.index') }}">Job Match</a> page to see your match here.</p>
+{% endif %}
+
+<h2>Applications ({{ applications|length }})</h2>
+{% if applications %}
+  <table>
+    <tr><th>Applied</th><th>Status</th><th>Resume</th><th></th></tr>
+    {% for a in applications %}
+      <tr>
+        <td>{{ a.application_date }}</td>
+        <td>{{ a.status }}</td>
+        <td>{{ a.resume_version|dash }}</td>
+        <td><a href="{{ url_for('applications.detail', application_id=a.application_id) }}">View</a></td>
+      </tr>
+    {% endfor %}
+  </table>
+{% else %}<p class="muted">No applications for this job yet.</p>{% endif %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Companies{% endblock %}
+{% block content %}
+<div class="top">
+  <h1>Companies</h1>
+  <a class="btn btn-primary" href="{{ url_for('companies.create') }}">Add company</a>
+</div>
+
+<form class="search" method="get">
+  <input type="text" name="q" value="{{ q }}" placeholder="Search name, industry or city">
+  <button class="btn" type="submit">Search</button>
+  {% if q %}<a href="{{ url_for('companies.list_companies') }}">Clear</a>{% endif %}
+</form>
+
+{% if companies %}
+  <div class="table-wrap"><table>
+    <tr><th>Name</th><th>Industry</th><th>Location</th><th>Jobs</th><th>Contacts</th><th></th></tr>
+    {% for c in companies %}
+      <tr>
+        <td><a href="{{ url_for('companies.detail', company_id=c.company_id) }}">{{ c.company_name }}</a></td>
+        <td>{{ c.industry|dash }}</td>
+        <td>{{ [c.city, c.state]|select|join(', ') or '—' }}</td>
+        <td>{{ c.job_count }}</td>
+        <td>{{ c.contact_count }}</td>
+        <td><a href="{{ url_for('companies.edit', company_id=c.company_id) }}">Edit</a></td>
+      </tr>
+    {% endfor %}
+  </table></div>
+{% else %}
+  <p class="muted">No companies found.</p>
+{% endif %}
+{% endblock %}

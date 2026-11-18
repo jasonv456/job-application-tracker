@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Job Match{% endblock %}
+{% block content %}
+<h1>Job Match</h1>
+<p class="muted">Enter your skills to see what percentage of each job's required skills you have.</p>
+
+<form method="post">
+  <div class="field">
+    <label for="skills">Your skills (comma-separated)</label>
+    <textarea id="skills" name="skills" rows="2" placeholder="Python, SQL, Git, JavaScript">{{ skills|join(', ') }}</textarea>
+    {% if known_skills %}<p class="help">Skills used by jobs: {{ known_skills|join(', ') }}</p>{% endif %}
+  </div>
+  <p>
+    <button class="btn btn-primary" type="submit">Find matches</button>
+    {% if skills %}<button class="btn" type="submit" formaction="{{ url_for('match.clear') }}">Clear</button>{% endif %}
+  </p>
+</form>
+
+{% if skills %}
+  <h2>Results for active jobs</h2>
+  {% if results %}
+    <div class="table-wrap"><table>
+      <tr><th>Match</th><th>Job</th><th>Company</th><th>Skills you have</th><th>Skills missing</th></tr>
+      {% for job in results %}
+        <tr>
+          <td class="pct lvl-{{ job.level }}">{{ job.match.percent }}%<br>
+            <span class="muted" style="font-size:12px;font-weight:normal">{{ job.match.matched|length }} of {{ job.match.required_count }}</span></td>
+          <td><a href="{{ url_for('jobs.detail', job_id=job.job_id) }}">{{ job.job_title }}</a></td>
+          <td>{{ job.company_name }}</td>
+          <td>{% for s in job.match.matched %}<span class="tag tag-hit">{{ s }}</span>{% else %}<span class="muted">none</span>{% endfor %}</td>
+          <td>{% for s in job.match.missing %}<span class="tag tag-miss">{{ s }}</span>{% else %}<span class="muted">none</span>{% endfor %}</td>
+        </tr>
+      {% endfor %}
+    </table></div>
+  {% else %}
+    <p class="muted">No active jobs have required skills listed yet.</p>
+  {% endif %}
+  {% if unscored %}<p class="help">{{ unscored }} job(s) have no required skills listed and are not scored.</p>{% endif %}
+{% endif %}
+{% endblock %}

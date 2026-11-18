@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+<p>
+  <a href="{{ url_for('companies.list_companies') }}">{{ counts.companies }} companies</a> ·
+  <a href="{{ url_for('jobs.list_jobs') }}">{{ counts.jobs }} jobs</a> ({{ counts.active_jobs }} active) ·
+  <a href="{{ url_for('applications.list_applications') }}">{{ counts.applications }} applications</a> ·
+  <a href="{{ url_for('contacts.list_contacts') }}">{{ counts.contacts }} contacts</a>
+</p>
+<p>
+  <a class="btn btn-primary" href="{{ url_for('applications.create') }}">Log an application</a>
+  <a class="btn" href="{{ url_for('match.index') }}">Find matching jobs</a>
+</p>
+
+<h2>Recent applications</h2>
+{% if recent %}
+  <div class="table-wrap"><table>
+    <tr><th>Job</th><th>Company</th><th>Applied</th><th>Status</th></tr>
+    {% for a in recent %}
+      <tr>
+        <td><a href="{{ url_for('applications.detail', application_id=a.application_id) }}">{{ a.job_title }}</a></td>
+        <td>{{ a.company_name }}</td>
+        <td>{{ a.application_date }}</td>
+        <td>{{ a.status }}</td>
+      </tr>
+    {% endfor %}
+  </table></div>
+{% else %}
+  <p class="muted">No applications yet.</p>
+{% endif %}
+
+{% if by_status %}
+<h2>Applications by status</h2>
+<table style="width:auto">
+  <tr><th>Status</th><th>Count</th></tr>
+  {% for row in by_status %}
+    <tr><td><a href="{{ url_for('applications.list_applications', status=row.status) }}">{{ row.status }}</a></td><td>{{ row.n }}</td></tr>
+  {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Contacts{% endblock %}
+{% block content %}
+<div class="top">
+  <h1>Contacts</h1>
+  <a class="btn btn-primary" href="{{ url_for('contacts.create') }}">Add contact</a>
+</div>
+
+<form class="search" method="get">
+  <input type="text" name="q" value="{{ q }}" placeholder="Search name, company, email or title">
+  <button class="btn" type="submit">Search</button>
+  {% if q %}<a href="{{ url_for('contacts.list_contacts') }}">Clear</a>{% endif %}
+</form>
+
+{% if contacts %}
+  <div class="table-wrap"><table>
+    <tr><th>Name</th><th>Company</th><th>Title</th><th>Email</th><th>Phone</th><th></th></tr>
+    {% for k in contacts %}
+      <tr>
+        <td><a href="{{ url_for('contacts.detail', contact_id=k.contact_id) }}">{{ k.first_name }} {{ k.last_name }}</a></td>
+        <td>{{ k.company_name }}</td>
+        <td>{{ k.job_title|dash }}</td>
+        <td>{{ k.email|dash }}</td>
+        <td>{{ k.phone|dash }}</td>
+        <td><a href="{{ url_for('contacts.edit', contact_id=k.contact_id) }}">Edit</a></td>
+      </tr>
+    {% endfor %}
+  </table></div>
+{% else %}
+  <p class="muted">No contacts found.</p>
+{% endif %}
+{% endblock %}

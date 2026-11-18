@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block title %}{{ 'Edit company' if company else 'New company' }}{% endblock %}
+{% block content %}
+<h1>{{ 'Edit company' if company else 'New company' }}</h1>
+
+<form method="post" novalidate>
+  {{ m.input('company_name', 'Company name', form, errors, required=True, maxlength=100) }}
+  {{ m.input('industry', 'Industry', form, errors, maxlength=50, placeholder='e.g. Technology') }}
+  {{ m.input('website', 'Website', form, errors, maxlength=200, placeholder='www.example.com') }}
+  {{ m.input('city', 'City', form, errors, maxlength=50) }}
+  {{ m.input('state', 'State', form, errors, maxlength=50) }}
+  {{ m.textarea('notes', 'Notes', form, errors, maxlength=5000) }}
+  {{ m.form_buttons(company, url_for('companies.detail', company_id=company.company_id) if company else url_for('companies.list_companies')) }}
+</form>
+{% endblock %}

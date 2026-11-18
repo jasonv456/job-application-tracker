@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% from "_macros.html" import delete_button %}
+{% block title %}{{ contact.first_name }} {{ contact.last_name }}{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('contacts.list_contacts') }}">&larr; All contacts</a></p>
+<div class="top">
+  <h1>{{ contact.first_name }} {{ contact.last_name }}</h1>
+  <div>
+    <a class="btn" href="{{ url_for('contacts.edit', contact_id=contact.contact_id) }}">Edit</a>
+    {{ delete_button(url_for('contacts.delete', contact_id=contact.contact_id), contact.first_name ~ ' ' ~ contact.last_name) }}
+  </div>
+</div>
+
+<table class="details">
+  <tr><th>Company</th><td><a href="{{ url_for('companies.detail', company_id=contact.company_id) }}">{{ contact.company_name }}</a></td></tr>
+  <tr><th>Job title</th><td>{{ contact.job_title|dash }}</td></tr>
+  <tr><th>Email</th><td>{{ contact.email|dash }}</td></tr>
+  <tr><th>Phone</th><td>{{ contact.phone|dash }}</td></tr>
+  <tr><th>LinkedIn</th><td>{{ contact.linkedin_url|dash }}</td></tr>
+  <tr><th>Notes</th><td class="notes">{{ contact.notes|dash }}</td></tr>
+</table>
+{% endblock %}

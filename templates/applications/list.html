@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Applications{% endblock %}
+{% block content %}
+<div class="top">
+  <h1>Applications</h1>
+  <a class="btn btn-primary" href="{{ url_for('applications.create') }}">Log application</a>
+</div>
+
+<form class="search" method="get">
+  <input type="text" name="q" value="{{ q }}" placeholder="Search job or company">
+  <select name="status">
+    <option value="">All statuses</option>
+    {% for s in statuses %}<option {{ 'selected' if s == status }}>{{ s }}</option>{% endfor %}
+  </select>
+  <button class="btn" type="submit">Search</button>
+  {% if q or status %}<a href="{{ url_for('applications.list_applications') }}">Clear</a>{% endif %}
+</form>
+
+{% if applications %}
+  <div class="table-wrap"><table>
+    <tr><th>Job</th><th>Company</th><th>Applied</th><th>Status</th><th>Resume</th><th></th></tr>
+    {% for a in applications %}
+      <tr>
+        <td><a href="{{ url_for('applications.detail', application_id=a.application_id) }}">{{ a.job_title }}</a></td>
+        <td>{{ a.company_name }}</td>
+        <td>{{ a.application_date }}</td>
+        <td>{{ a.status }}</td>
+        <td>{{ a.resume_version|dash }}</td>
+        <td><a href="{{ url_for('applications.edit', application_id=a.application_id) }}">Edit</a></td>
+      </tr>
+    {% endfor %}
+  </table></div>
+{% else %}
+  <p class="muted">No applications found.</p>
+{% endif %}
+{% endblock %}

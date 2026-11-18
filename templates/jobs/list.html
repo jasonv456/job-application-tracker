@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% from "_macros.html" import skill_tags %}
+{% block title %}Jobs{% endblock %}
+{% block content %}
+<div class="top">
+  <h1>Jobs</h1>
+  <a class="btn btn-primary" href="{{ url_for('jobs.create') }}">Add job</a>
+</div>
+
+<form class="search" method="get">
+  <input type="text" name="q" value="{{ q }}" placeholder="Search title, company or skill">
+  <button class="btn" type="submit">Search</button>
+  {% if q %}<a href="{{ url_for('jobs.list_jobs') }}">Clear</a>{% endif %}
+</form>
+
+{% if jobs %}
+  <div class="table-wrap"><table>
+    <tr><th>Title</th><th>Company</th><th>Required skills</th><th>Salary</th><th>Active</th><th></th></tr>
+    {% for j in jobs %}
+      <tr>
+        <td><a href="{{ url_for('jobs.detail', job_id=j.job_id) }}">{{ j.job_title }}</a></td>
+        <td>{{ j.company_name }}</td>
+        <td>{{ skill_tags(j.skills) }}</td>
+        <td style="white-space:nowrap">{{ j.salary_min|money }} – {{ j.salary_max|money }}</td>
+        <td>{{ 'Yes' if j.is_active else 'No' }}</td>
+        <td><a href="{{ url_for('jobs.edit', job_id=j.job_id) }}">Edit</a></td>
+      </tr>
+    {% endfor %}
+  </table></div>
+{% else %}
+  <p class="muted">No jobs found.</p>
+{% endif %}
+{% endblock %}

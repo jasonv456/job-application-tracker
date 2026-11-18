@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block title %}{{ 'Edit job' if job else 'New job' }}{% endblock %}
+{% block content %}
+<h1>{{ 'Edit job' if job else 'New job' }}</h1>
+
+{% if not companies %}
+  <div class="flash flash-info">Add a <a href="{{ url_for('companies.create') }}">company</a> before adding a job.</div>
+{% endif %}
+
+<form method="post" novalidate>
+  {{ m.select('company_id', 'Company', form, errors, companies|options('company_id', 'company_name'), required=True) }}
+  {{ m.input('job_title', 'Job title', form, errors, required=True, maxlength=100) }}
+  {{ m.textarea('requirements', 'Required skills', form, errors, rows=2,
+       placeholder='Python, SQL, Git', help='Comma-separated. Saved as a JSON list and used by Job Match.') }}
+  {{ m.input('salary_min', 'Minimum salary ($)', form, errors, type='number', step='1000', min=0) }}
+  {{ m.input('salary_max', 'Maximum salary ($)', form, errors, type='number', step='1000', min=0) }}
+  {{ m.select('job_type', 'Job type', form, errors, job_types|options) }}
+  {{ m.input('date_posted', 'Date posted', form, errors, type='date') }}
+  {{ m.input('posting_url', 'Posting URL', form, errors, maxlength=500, placeholder='https://...') }}
+  {{ m.textarea('job_description', 'Description', form, errors, rows=4, maxlength=10000) }}
+  {{ m.checkbox('is_active', 'Job is still open', form) }}
+  {{ m.form_buttons(job, url_for('jobs.detail', job_id=job.job_id) if job else url_for('jobs.list_jobs')) }}
+</form>
+{% endblock %}
