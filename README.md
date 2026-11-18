@@ -47,7 +47,7 @@ Get-Content db\migration_add_requirements.sql -Raw | & "C:\Program Files\MySQL\M
 .\.venv\Scripts\python app.py
 ```
 
-Open <http://127.0.0.1:5000>. MySQL (service `MySQL80`) must be running.
+Open <http://127.0.0.1:47510>. MySQL (service `MySQL80`) must be running.
 
 The database login defaults to `root` / `root`. To use different credentials, set
 environment variables before starting the app: `DB_HOST`, `DB_USER`, `DB_PASSWORD`,
