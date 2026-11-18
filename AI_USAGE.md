@@ -13,6 +13,7 @@ How I used it
 - Database: My tables had no JSON column, so I had it add a `requirements` JSON column to `jobs`. This column holds each job's required skills. It backed up the database first.
 - Code: It wrote the Flask routes for all four tables, the form validation, the HTML templates and the Job Match logic.
 - Testing: It wrote 74 automated tests. They run on a separate test database, so my real data isn't touched.
+- Website: It wrote the css and html for each page
 
 Problems it fixed
 
