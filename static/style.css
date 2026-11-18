@@ -1,0 +1,71 @@
+/* Job Tracker – simple stylesheet */
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  color: #222;
+  background: #fff;
+}
+a { color: #1a5dc9; }
+
+header { background: #1a5dc9; padding: 12px 20px; }
+header a { color: #fff; text-decoration: none; margin-right: 18px; }
+header a.brand { font-weight: bold; margin-right: 28px; }
+header a.active { text-decoration: underline; }
+
+main { max-width: 1000px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 24px; margin: 0 0 6px; }
+h2 { font-size: 18px; margin: 24px 0 8px; }
+.muted { color: #777; }
+.inline { display: inline; }
+.top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+
+/* Buttons */
+.btn {
+  display: inline-block; padding: 6px 12px; border: 1px solid #bbb; border-radius: 4px;
+  background: #f4f4f4; color: #222; text-decoration: none; font-size: 14px; cursor: pointer;
+}
+.btn:hover { background: #e8e8e8; }
+.btn-primary { background: #1a5dc9; border-color: #1a5dc9; color: #fff; }
+.btn-primary:hover { background: #154ea8; }
+.btn-danger { background: #fff; border-color: #c33; color: #c33; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+th, td { text-align: left; padding: 8px; border-bottom: 1px solid #ddd; vertical-align: top; }
+th { background: #f4f4f4; }
+.table-wrap { overflow-x: auto; }
+
+/* Detail pages */
+table.details th { width: 170px; background: none; color: #555; font-weight: normal; }
+.notes { white-space: pre-wrap; }
+
+/* Forms */
+form.search { margin-bottom: 12px; }
+form.search input { padding: 6px; width: 260px; max-width: 100%; }
+.field { margin-bottom: 12px; }
+.field label { display: block; font-weight: bold; margin-bottom: 4px; }
+.field input[type=text], .field input[type=email], .field input[type=number], .field input[type=date],
+.field input[type=datetime-local], .field input[type=tel], .field select, .field textarea {
+  width: 100%; max-width: 500px; padding: 6px; border: 1px solid #bbb; border-radius: 4px;
+  font: inherit; box-sizing: border-box;
+}
+.req { color: #c33; }
+.error { color: #c33; font-size: 13px; margin: 4px 0 0; }
+.has-error input, .has-error select, .has-error textarea { border-color: #c33; }
+.help { color: #777; font-size: 13px; margin: 4px 0 0; }
+
+/* Flash messages */
+.flash { padding: 10px; border-radius: 4px; margin-bottom: 12px; }
+.flash-success { background: #e4f5e9; color: #1d6b3a; }
+.flash-error { background: #fbe4e4; color: #a12626; }
+.flash-info { background: #e6eefb; color: #1a4c9c; }
+
+/* Skills & match */
+.tag { display: inline-block; padding: 1px 6px; margin: 1px; border-radius: 3px; background: #eee; font-size: 13px; }
+.tag-hit { background: #d8f0df; color: #1d6b3a; }
+.tag-miss { background: #fbe0e0; color: #a12626; }
+.pct { font-weight: bold; font-size: 16px; white-space: nowrap; }
+.lvl-high { color: #1d8a45; }
+.lvl-medium { color: #b7791f; }
+.lvl-low { color: #c33; }
