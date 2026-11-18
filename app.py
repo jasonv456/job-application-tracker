@@ -1,6 +1,6 @@
 """Job Tracker - Flask application entry point.
 
-Run with:  python app.py   (then open http://127.0.0.1:5000)
+Run with:  python app.py   (then open http://127.0.0.1:4751)
 """
 from flask import Flask, render_template
 
