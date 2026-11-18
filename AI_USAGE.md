@@ -10,14 +10,12 @@ What I asked it to do
 
 How I used it
 
-- Getting started: It read my existing Python scripts and checked the real table structure in MySQL. My MySQL service was stopped, so I approved a Windows admin prompt to start it.
 - Database: My tables had no JSON column, so I had it add a `requirements` JSON column to `jobs`. This column holds each job's required skills. It backed up the database first.
 - Code: It wrote the Flask routes for all four tables, the form validation, the HTML templates and the Job Match logic.
 - Testing: It wrote 74 automated tests. They run on a separate test database, so my real data isn't touched.
 
-Problems we fixed
+Problems it fixed
 
-- MySQL wasn't running, so I started the service as admin.
 - There was no JSON column, so I added one with a migration script.
 - Deleting a company that still had jobs would cause a database error. I had it block the delete and show a clear message instead.
 
