@@ -37,7 +37,6 @@ the 18 sample jobs. `db/schema.sql` is the full schema.
 ## Setup
 
 ```powershell
-cd C:\Users\jason\Desktop\vs\python\job_tracker_app
 python -m venv .venv
 .\.venv\Scripts\pip install -r requirements.txt
 
